@@ -44,14 +44,19 @@ const appendPageLinks = () => {
 
     //adds a click event to every page link
     newLi.addEventListener('click', (e) => {
+      pageCounter = parseInt(e.target.textContent);
       showPage();
-      for (var i = 0; i < totalPages; i++) {
-        newA.classList.remove('active');
-      }
-      e.target.classList.add('active');
-      })
-  }
 
+       //loops over all the links with active class and removes it
+         //if it is the target add active class
+      const links = document.getElementsByClassName('active');
+      for (var i = 0; i < links.length; i++) {
+        links[i].classList.remove('active');
+        }
+      e.target.classList.add('active');
+    })
+  }
 }
+
 showPage();
 appendPageLinks();
