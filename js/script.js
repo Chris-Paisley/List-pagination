@@ -1,19 +1,56 @@
 const ul = document.querySelector('.student-list');
 const li = ul.children;
-const listNumb = li.length;
+let listNumb = li.length;
 const pageDiv = ul.parentElement;
 const tenStudents = 10;
 const totalPages = Math.ceil(listNumb / tenStudents);
 let pageCounter = 1;
 const pageHeaderDiv = document.getElementsByClassName('page-header cf');
 const studentsDiv = document.getElementsByTagName('h3');
+const searchDiv = document.createElement('div');
+const searchBar = document.createElement('input');
+const searchButton = document.createElement('button');
+const newDiv = document.createElement('div');
+const noMatch = document.createElement('p');
 
+
+//function if no results make a paragraph telling the user about it
+const noResults = () => {
+  noMatch.innerHTML = `<p> Student not found</p>`;
+  ul.appendChild(noMatch);
+}
+
+const searchKeyup = () => {
+  searchBar.addEventListener('keyup', () => {
+    let studentName;
+    let searchedStudents = [];
+    let studentCount = 0;
+
+    for (let i = 0; i < studentsDiv.length; i++) {
+      studentName = studentsDiv[i].innerHTML;
+      if (studentName.toUpperCase().indexOf(searchBar.value.toUpperCase()) > -1) {
+        li[i].hidden = false;
+        newDiv.hidden = false;
+        searchedStudents.push(studentsDiv[i]);
+        studentCount++;
+      }else {
+        li[i].hidden = true;
+      }
+    }
+
+    if (studentCount === 0) {
+      noResults();
+      newDiv.hidden = true;
+    } else {
+
+      noMatch.innerHTML = '';
+    }
+
+  })//end of keyup
+}//end of searchKeyup func
 
 //function for searching
 const searchingFunc = () => {
-  const searchDiv = document.createElement('div');
-  const searchBar = document.createElement('input');
-  const searchButton = document.createElement('button');
   searchDiv.classList.add('student-search');
   searchButton.innerHTML = 'Search';
 
@@ -32,28 +69,7 @@ const searchingFunc = () => {
 
   searchDiv.appendChild(searchBar);
   searchDiv.appendChild(searchButton);
-let studentName;
-const noMatch = document.createElement('p');
-const noResults = () => {
-  noMatch.innerHTML = `<p> Nothing here</p>`;
-  ul.appendChild(noMatch);
-}
-  searchBar.addEventListener('keyup', () => {
-
-
-      for (let i = 0; i < studentsDiv.length; i++) {
-        studentName = studentsDiv[i].innerHTML;
-
-          if (studentName.toUpperCase().indexOf(searchBar.value.toUpperCase()) > -1) {
-            li[i].hidden = false;
-          }else {
-            li[i].hidden = true;
-            noResults();
-          }
-      }
-    
-
-  })
+  searchKeyup();
 }//end of searchingFunc
 
 
@@ -75,7 +91,6 @@ const appendPageLinks = () => {
   }
 
   //creates a new div with ul inside with class of pagination
-  const newDiv = document.createElement('div');
   newDiv.classList.add('pagination');
   pageDiv.appendChild(newDiv);
   const newUl = document.createElement('ul');
