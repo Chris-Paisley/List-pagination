@@ -39,10 +39,8 @@ const noResults = () => {
   ul.appendChild(noMatch);
 }
   searchBar.addEventListener('keyup', () => {
-    if (searchBar == '') {
-      showPage();
-    }
-    if(searchBar !== ''){
+
+
       for (let i = 0; i < studentsDiv.length; i++) {
         studentName = studentsDiv[i].innerHTML;
 
@@ -53,7 +51,7 @@ const noResults = () => {
             noResults();
           }
       }
-    }
+    
 
   })
 }//end of searchingFunc
