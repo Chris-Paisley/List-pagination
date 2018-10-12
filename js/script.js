@@ -5,6 +5,59 @@ const pageDiv = ul.parentElement;
 const tenStudents = 10;
 const totalPages = Math.ceil(listNumb / tenStudents);
 let pageCounter = 1;
+const pageHeaderDiv = document.getElementsByClassName('page-header cf');
+const studentsDiv = document.getElementsByTagName('h3');
+
+
+//function for searching
+const searchingFunc = () => {
+  const searchDiv = document.createElement('div');
+  const searchBar = document.createElement('input');
+  const searchButton = document.createElement('button');
+  searchDiv.classList.add('student-search');
+  searchButton.innerHTML = 'Search';
+
+  //searching for students... the placeholder is only visable if the search isnt in focus
+  searchBar.setAttribute('placeholder', 'Searching for students...');
+  searchBar.addEventListener('focus', () => {
+    searchBar.setAttribute('placeholder', '');
+  })
+  searchBar.addEventListener('blur', () => {
+    searchBar.setAttribute('placeholder', 'Searching for students...');
+  })
+
+  for (var i = 0; i < pageHeaderDiv.length; i++) {
+    pageHeaderDiv[0].appendChild(searchDiv);
+  }
+
+  searchDiv.appendChild(searchBar);
+  searchDiv.appendChild(searchButton);
+let studentName;
+const noMatch = document.createElement('p');
+const noResults = () => {
+  noMatch.innerHTML = `<p> Nothing here</p>`;
+  ul.appendChild(noMatch);
+}
+  searchBar.addEventListener('keyup', () => {
+    if (searchBar == '') {
+      showPage();
+    }
+    if(searchBar !== ''){
+      for (let i = 0; i < studentsDiv.length; i++) {
+        studentName = studentsDiv[i].innerHTML;
+
+          if (studentName.toUpperCase().indexOf(searchBar.value.toUpperCase()) > -1) {
+            li[i].hidden = false;
+          }else {
+            li[i].hidden = true;
+            noResults();
+          }
+      }
+    }
+
+  })
+}//end of searchingFunc
+
 
 //shows only 10 students and will hide others depending on the page clicked
 const showPage = () => {
@@ -61,5 +114,6 @@ const appendPageLinks = () => {
   }
 }
 
+searchingFunc();
 showPage();
 appendPageLinks();
