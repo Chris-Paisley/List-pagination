@@ -1,6 +1,6 @@
 const ul = document.querySelector('.student-list');
 const li = ul.children;
-let listNumb = li.length;
+const listNumb = li.length;
 const pageDiv = ul.parentElement;
 const tenStudents = 10;
 const totalPages = Math.ceil(listNumb / tenStudents);
@@ -30,23 +30,27 @@ const searchKeyup = () => {
       studentName = studentsDiv[i].innerHTML;
       if (studentName.toUpperCase().indexOf(searchBar.value.toUpperCase()) > -1) {
         li[i].hidden = false;
-        newDiv.hidden = false;
+
         searchedStudents.push(studentsDiv[i]);
         studentCount++;
       }else {
         li[i].hidden = true;
+
       }
     }
+
+    showPage(studentCount);
+
 
     if (studentCount === 0) {
       noResults();
       newDiv.hidden = true;
     } else {
-
       noMatch.innerHTML = '';
     }
 
   })//end of keyup
+
 }//end of searchKeyup func
 
 //function for searching
@@ -74,7 +78,7 @@ const searchingFunc = () => {
 
 
 //shows only 10 students and will hide others depending on the page clicked
-const showPage = () => {
+const showPage = (listNumb) => {
     for(let i = 0; i < listNumb; i++){
       if(i >= (tenStudents * pageCounter) - tenStudents && i <  tenStudents * pageCounter ){
         li[i].hidden = false;
@@ -85,7 +89,7 @@ const showPage = () => {
 }//end of showPage
 
 
-const appendPageLinks = () => {
+const appendPageLinks = (totalPages) => {
   if(ul.classList.contains('pagination')){
     li[i].classList.remove('pagination');
   }
@@ -128,5 +132,5 @@ const appendPageLinks = () => {
 }
 
 searchingFunc();
-showPage();
-appendPageLinks();
+showPage(listNumb);
+appendPageLinks(totalPages);
