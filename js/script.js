@@ -12,6 +12,7 @@ const searchBar = document.createElement('input');
 const searchButton = document.createElement('button');
 const newDiv = document.createElement('div');
 const noMatch = document.createElement('p');
+const newUl = document.createElement('ul');
 
 
 //function if no results make a paragraph telling the user about it
@@ -30,7 +31,6 @@ const searchKeyup = () => {
       studentName = studentsDiv[i].innerHTML;
       if (studentName.toUpperCase().indexOf(searchBar.value.toUpperCase()) > -1) {
         li[i].hidden = false;
-
         searchedStudents.push(studentsDiv[i]);
         studentCount++;
       }else {
@@ -40,7 +40,10 @@ const searchKeyup = () => {
     }
 
     showPage(studentCount);
-
+    pageCounter = 1;
+    const newTotalPages = Math.ceil( searchedStudents.length/ tenStudents);
+    appendPageLinks(newTotalPages);
+    console.log(newTotalPages);
 
     if (studentCount === 0) {
       noResults();
@@ -97,7 +100,7 @@ const appendPageLinks = (totalPages) => {
   //creates a new div with ul inside with class of pagination
   newDiv.classList.add('pagination');
   pageDiv.appendChild(newDiv);
-  const newUl = document.createElement('ul');
+
   newDiv.appendChild(newUl);
 
   //for every page needed add a li, a, set the text to the page number and put them in the ul
@@ -119,7 +122,7 @@ const appendPageLinks = (totalPages) => {
     //adds a click event to every page link
     newLi.addEventListener('click', (e) => {
       pageCounter = parseInt(e.target.textContent);
-      showPage();
+      showPage(listNumb);
        //loops over all the links with active class and removes it
          //if it is the target add active class
       const links = document.getElementsByClassName('active');
